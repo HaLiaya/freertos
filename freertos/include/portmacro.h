@@ -12,6 +12,22 @@
 #define portSHORT           short
 #define portSTACK_TYPE      uint32_t
 #define portBASE_TYPE       long
+/* 中断控制状态寄存器：0xe000ed04
+* Bit 28 PENDSVSET: PendSV 悬起位
+*/
+#define portNVIC_INT_CTRL_REG               (*(( volatile uint32_t *) 0xe000ed04))
+#define portNVIC_PENDSVSET_BIT              ( 1UL << 28UL )
+
+#define portSY_FULL_READ_WRITE              ( 15 )
+
+#define portYIELD()\
+{\
+    /* 触发PendSV，产生上下文切换 */\
+    portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;\
+    __dsb( portSY_FULL_READ_WRITE );\
+    __isb( portSY_FULL_READ_WRITE );\
+}
+
 
 typedef portSTACK_TYPE StackType_t;
 typedef long BaseType_t;

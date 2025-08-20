@@ -85,4 +85,11 @@ typedef struct xLIST
     /* 获取节点的OWNER，即TCB */\
     ( pxTCB ) = ( pxConstList )->pxIndex->pvOwner;\
 }
+
+/*list.c定义的函数*/
+void vListInitialise(List_t * const pxList);
+void vListInitialiseItem(ListItem_t * const pxItem);
+void vListInsertEnd(List_t * const pxList , ListItem_t * const pxNewListItem);
+void vListInsert(List_t * const pxList , ListItem_t * const pxNewListItem);
+UBaseType_t uxListRemove(ListItem_t * const pxItemtoRemove);
 #endif

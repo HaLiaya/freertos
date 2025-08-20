@@ -415,6 +415,26 @@
               <FileType>5</FileType>
               <FilePath>.\freertos\include\FreeRTOSConfig.h</FilePath>
             </File>
+            <File>
+              <FileName>projdefs.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\freertos\include\projdefs.h</FilePath>
+            </File>
+            <File>
+              <FileName>task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\freertos\include\task.h</FilePath>
+            </File>
+            <File>
+              <FileName>task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\freertos\task.c</FilePath>
+            </File>
+            <File>
+              <FileName>port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\freertos\port.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
