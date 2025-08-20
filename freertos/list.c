@@ -40,4 +40,57 @@ void vListInsertEnd(List_t * const pxList , ListItem_t * const pxNewListItem){
     ( pxList->uxNumberOfItems )++;
 }
 
-/*将节点按照升序排列插入到链表*/
+/*将节点按照(辅助值)升序排列插入到链表*/
+void vListInsert(List_t * const pxList , ListItem_t * const pxNewListItem){
+		ListItem_t *pxIterator;
+		/* 获取节点的排序辅助值 */
+		const TickType_t xValueOfInsertion = pxNewListItem->xItemValue;
+	
+		 /* 寻找节点要插入的位置 */
+		if(xValueOfInsertion == portMAX_DELAY){
+				pxIterator = pxList->xListEnd.pxPrevious;
+		
+		}
+		else {
+				for(pxIterator = (ListItem_t *)&(pxList->xListEnd) ; pxIterator->pxNext->xItemValue <=xValueOfInsertion ; pxIterator = pxIterator->pxNext)
+					{
+							/* 没有事情可做，不断迭代只为了找到节点要插入的位置 */
+					}
+				
+		}
+		/* 根据升序排列，将节点插入 */
+					pxNewListItem->pxNext = pxIterator->pxNext;
+					pxNewListItem->pxNext->pxPrevious = pxNewListItem;
+					pxNewListItem->pxPrevious = pxIterator;
+					pxIterator->pxNext = pxNewListItem;
+		 /* 记住该节点所在的链表 */
+		pxNewListItem->pvContainer = (void *)pxList;
+		
+		/*链表节点计数器++*/
+		(pxList->uxNumberOfItems) ++;
+
+}
+
+/*将节点从链表中删除*/
+UBaseType_t uxListRemove(ListItem_t * const pxItemtoRemove){
+	/*获取节点所在的链表*/
+	List_t * const pxList = pxItemtoRemove->pvContainer;
+	/*将指定的节点从链表中删除*/
+	pxItemtoRemove->pxNext->pxPrevious = pxItemtoRemove->pxPrevious;
+	pxItemtoRemove->pxPrevious->pxNext = pxItemtoRemove->pxNext;
+	
+	/*调整链表的节点索引指针*/
+	if(pxList->pxIndex == pxItemtoRemove){
+			pxList->pxIndex = pxItemtoRemove->pxPrevious;
+	}
+	
+	/*初始化该节点所在的链表为空，表示节点还没有插入任何链表*/
+	pxItemtoRemove->pvContainer = NULL;
+	
+	/*链表节点计数器--*/
+	(pxList->uxNumberOfItems)--;
+	
+	/*返回链表中剩余的节点个数*/
+	return pxList->uxNumberOfItems;
+
+}
